@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ballot BUZZ - Home</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+
+
+
+    header {
+      background-color: #012055;
+      color: white;
+      padding: 0.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+
+
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+
+
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-weight: bold;
+    }
+
+
+
+
+    nav a.active {
+      background-color: white;
+      color: #0a2e5c;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
+    }
+
+
+
+
+    main {
+      flex: 1;
+      padding: 1.5rem;
+    }
+
+
+
+
+    .top-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+
+
+
+    .updates, .presentation, .alerts {
+      background-color: #cfd8e6;
+      padding: 1rem;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+
+
+
+    .updates, .alerts {
+      flex: 0.5;
+      min-height: 200px;
+    }
+
+
+
+
+    .alerts {
+      min-height: 300px;
+    }
+
+
+
+
+    .presentation {
+      flex: 1;
+      min-height: 200px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* To ensure iframe fills the container */
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+    /* Make iframe fill .presentation fully */
+    .presentation iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 5px;
+    }
+
+
+
+
+    .alert-box {
+      background-color: white;
+      padding: 0.5rem;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+    }
+
+
+
+
+    .alert-box span {
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+      color: orange;
+    }
+
+
+
+
+    .text-row {
+      background-color: #cfd8e6;
+      padding: 0.7rem 1rem;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 5px;
+      max-width: 600px;
+      margin: 0 auto 1rem auto;
+    }
+
+
+
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+
+
+
+    .button-row div {
+      background-color: #cfd8e6;
+      padding: 3rem;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 5px;
+      width: 200px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+
+
+
+    .button-row div:hover {
+      background-color: #b3c4dd;
+    }
+
+
+
+
+    footer {
+      background-color: #b3c4dd;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+
+
+
+    .footer-left, .footer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+
+
+
+    footer button {
+      background-color: #0a2e5c;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+
+
+
+
+  <header>
+    <div>
+      <img src="C:\Web Ballot Buzz\Logo.png" alt="Logo" style="max-height: 80px;">
+    </div>
+   <nav>
+  <a href="home.html" class="active">Home</a>
+  <a href="report.html">Report Issue</a>
+  <a href="guides.html">Guides</a>
+  <a href="candidates.html">Candidates</a>
+  <a href="login.html">Log Out</a>
+</nav>
+
+  </header>
+
+
+
+
+  <main>
+    <div class="top-row">
+     <div class="updates">
+  <h3 style="color: #012055; font-weight: bold;">Updates</h3>
+  <a href="https://www.gmanetwork.com/news/topstories/nation/905743/comelec-over-2-5-million-new-voters-registered-for-2025-polls/story/" target="_blank" style="text-decoration:none; color: inherit;">
+    <img src="https://images.gmanews.tv/webpics/2024/03/comelec1_2024_03_05_10_31_20.jpg" alt="Comelec News" style="width:100%; border-radius: 5px;" />
+    <p style="margin-top: 0.5rem; font-weight: bold; color: #0a2e5c;">
+      Comelec: <span style="color: #d9534f;">Over 2.5 million new voters</span> registered for 2025 polls<br>
+      <small style="color: #6c757d;">By GMA Integrated News<br>Published May 5, 2024 9:00am</small>
+    </p>
+  </a>
+</div>
+      <div class="presentation">
+        <!-- Embedded YouTube video starts at 14 seconds -->
+        <iframe
+          src="https://www.youtube.com/embed/pfjT0uBXV08?start=14"
+          title="8 Hakbang sa Pagboto"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="alerts">
+  <h3>Live Alerts & Reminders</h3>
+  <div class="alert-box"><span>⚠️</span> Polling stations will open at 6:00 AM.</div>
+  <div class="alert-box"><span>⚠️</span> Bring a valid government-issued ID on voting day.</div>
+  <div class="alert-box"><span>⚠️</span> Deadline for absentee voting registration: Sept 15, 2025.</div>
+  <div class="alert-box"><span>⚠️</span> Avoid wearing campaign shirts inside polling places.</div>
+  <div class="alert-box"><span>⚠️</span> If your voting machine is broken, inform the election officer immediately for assistance.</div>
+</div>
+</div>
+</div>
+
+
+    </div>
+
+
+
+
+    <div class="text-row">text</div>
+
+
+
+
+    <div class="button-row">
+      <div>View Candidates</div>
+      <div>Download Guides ⬇</div>
+      <div>Report Issue</div>
+    </div>
+  </main>
+
+
+
+
+  <footer>
+    <div class="footer-left">
+      <button>About</button>
+      <button>SocMed Links</button>
+    </div>
+    <div class="footer-right">
+      <button>Contact Us</button>
+    </div>
+  </footer>
+
+
+
+
+</body>
+</html>
