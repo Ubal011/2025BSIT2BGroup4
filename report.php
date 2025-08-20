@@ -1,14 +1,19 @@
+<?php
+// report.php - Issue Reporting Page
+$activePage = 'report';
+$pageTitle  = 'Ballot BUZZ - Report Issue';
+?>
 <!DOCTYPE html>
 <html lang="en">
-<head> <link rel="stylesheet" href="styles.css" />
+<head>
+  <link rel="stylesheet" href="styles.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ballot BUZZ - Report Issue</title>
+  <title><?= htmlspecialchars($pageTitle) ?></title>
+
   <style>
     /* Reset & basic */
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -17,16 +22,6 @@
       display: flex;
       flex-direction: column;
     }
-    header {
-      background: #012055;
-      padding: 0.5rem 2rem;
-      display: flex;
-      align-items: center;
-    }
-    header img {
-      height: 60px;
-    }
-
     main {
       flex: 1;
       display: flex;
@@ -45,7 +40,6 @@
       gap: 1.5rem;
       min-width: 320px;
     }
-
     .left-panel h2 {
       margin: 0 0 1rem 0;
       color: #012055;
@@ -80,7 +74,6 @@
       flex-direction: column;
       gap: 1rem;
     }
-
     label {
       font-weight: bold;
       color: #0a2e5c;
@@ -110,7 +103,6 @@
       display: flex;
       flex-direction: column;
     }
-
     .right-panel h2 {
       color: #012055;
       margin-bottom: 0.8rem;
@@ -133,8 +125,9 @@
       display: flex;
       gap: 1rem;
       justify-content: flex-start;
+      flex-wrap: wrap;
     }
-
+    .buttons-row button { flex: 1 1 180px; }
     button {
       background-color: #012055;
       color: white;
@@ -145,9 +138,7 @@
       font-weight: bold;
       transition: background-color 0.3s;
     }
-    button:hover {
-      background-color: #0141b8;
-    }
+    button:hover { background-color: #0141b8; }
 
     /* My Reports list */
     .reports-list {
@@ -162,9 +153,7 @@
       border-bottom: 1px solid #ddd;
       padding: 0.5rem 0;
     }
-    .report-item:last-child {
-      border-bottom: none;
-    }
+    .report-item:last-child { border-bottom: none; }
     .report-status {
       font-weight: bold;
       font-size: 0.9rem;
@@ -174,143 +163,129 @@
       display: inline-block;
       margin-left: 0.5rem;
     }
-    .status-inprogress {
-      background-color: #f0ad4e;
+    .status-inprogress { background-color: #f0ad4e; }
+    .status-resolved { background-color: #5cb85c; }
+    .status-pending  { background-color: #d9534f; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main { flex-direction: column; padding: 1rem; }
+      .left-panel, .right-panel { min-width: auto; }
     }
-    .status-resolved {
-      background-color: #5cb85c;
+
+    /* Ensure header/nav look as expected */
+    header {
+      background-color: #012055;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .status-pending {
-      background-color: #d9534f;
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: bold;
+    }
+    nav a.active {
+      background-color: white;
+      color: #0a2e5c;
+      padding: 0.3rem 0.6rem;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <header>
-  <div>
-    <img src="C:\Web Ballot Buzz\Logo.png" alt="Logo" style="max-height: 80px;">
+<?php require_once __DIR__ . '/header.php'; ?>
+
+<main>
+  <!-- Left Panel -->
+  <div class="left-panel">
+    <h2>Report Issue</h2>
+
+    <div class="tabs">
+      <div class="tab active" id="createTab">Create Report</div>
+      <div class="tab" id="myReportsTab">My Reports</div>
+    </div>
+
+    <form id="reportForm">
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" placeholder="Enter location" />
+
+      <label for="time">Time</label>
+      <div class="time-container">
+        <input type="time" id="time" name="time" />
+        <select id="ampm" name="ampm" aria-label="AM or PM">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+
+      <label for="issueType">Type of Issue</label>
+      <input type="text" id="issueType" name="issueType" placeholder="Enter issue type" />
+    </form>
+
+    <div class="reports-list" id="myReports" style="display:none;">
+      <div class="report-item">
+        <strong>Issue with voting machine</strong>
+        <span class="report-status status-inprogress">In Progress</span>
+        <p>Reported at Barangay Hall</p>
+      </div>
+      <div class="report-item">
+        <strong>Long queue at polling station</strong>
+        <span class="report-status status-resolved">Resolved</span>
+        <p>Reported at City Hall</p>
+      </div>
+      <div class="report-item">
+        <strong>Confusing ballot design</strong>
+        <span class="report-status status-pending">Pending</span>
+        <p>Reported at Community Center</p>
+      </div>
+    </div>
   </div>
-  <nav>
-    <a href="home.php">Home</a>
-    <a href="report.php" class="active">Report Issue</a>
-    <a href="guides.php">Guides</a>
-    <a href="candidates.php">Candidates</a>
-    <a href="login.php">Log Out</a>
-  </nav>
-</header>
 
-<style>
-  header {
-    background-color: #012055;
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  nav a {
-    color: white;
-    text-decoration: none;
-    margin-left: 1rem;
-    font-weight: bold;
-  }
-  nav a.active {
-    background-color: white;
-    color: #0a2e5c;
-    padding: 0.3rem 0.6rem;
-    border-radius: 5px;
-  }
-</style>
-
-
-  <main>
-    <div class="left-panel">
-      <h2>Report Issue</h2>
-
-      <div class="tabs">
-        <div class="tab active" id="createTab">Create Report</div>
-        <div class="tab" id="myReportsTab">My Reports</div>
-      </div>
-
-      <!-- Create Report Form -->
-      <form id="reportForm">
-        <label for="location">Location</label>
-        <input type="text" id="location" name="location" placeholder="Enter location" />
-
-        <label for="time">Time</label>
-        <div class="time-container">
-          <input type="time" id="time" name="time" />
-          <select id="ampm" name="ampm" aria-label="AM or PM">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </select>
-        </div>
-
-        <label for="issueType">Type of Issue</label>
-        <input type="text" id="issueType" name="issueType" placeholder="Enter issue type" />
-      </form>
-
-      <!-- My Reports List - initially hidden -->
-      <div class="reports-list" id="myReports" style="display:none;">
-        <div class="report-item">
-          <strong>Issue with voting machine</strong>
-          <span class="report-status status-inprogress">In Progress</span>
-          <p>Reported at Barangay Hall</p>
-        </div>
-        <div class="report-item">
-          <strong>Long queue at polling station</strong>
-          <span class="report-status status-resolved">Resolved</span>
-          <p>Reported at City Hall</p>
-        </div>
-        <div class="report-item">
-          <strong>Confusing ballot design</strong>
-          <span class="report-status status-pending">Pending</span>
-          <p>Reported at Community Center</p>
-        </div>
-      </div>
+  <!-- Right Panel -->
+  <div class="right-panel">
+    <h2>Description</h2>
+    <textarea id="description" placeholder="Describe the problem in detail..."></textarea>
+    <div class="buttons-row">
+      <button type="button" id="photoBtn">Submit Photo</button>
+      <button type="button" id="sendBtn">Send</button>
     </div>
+  </div>
+</main>
 
-    <div class="right-panel">
-      <h2>Description</h2>
-      <textarea id="description" placeholder="Describe the problem in detail..."></textarea>
-      <div class="buttons-row">
-        <button type="button" id="photoBtn">Submit Photo</button>
-        <button type="button" id="sendBtn">Send</button>
-      </div>
-    </div>
-  </main>
+<script>
+  // Tab switching logic
+  const createTab   = document.getElementById('createTab');
+  const myReportsTab = document.getElementById('myReportsTab');
+  const form        = document.getElementById('reportForm');
+  const myReports   = document.getElementById('myReports');
 
-  <script>
-    // Tab switching logic
-    const createTab = document.getElementById('createTab');
-    const myReportsTab = document.getElementById('myReportsTab');
-    const form = document.getElementById('reportForm');
-    const myReports = document.getElementById('myReports');
+  createTab.addEventListener('click', () => {
+    createTab.classList.add('active');
+    myReportsTab.classList.remove('active');
+    form.style.display = 'flex';
+    myReports.style.display = 'none';
+  });
 
-    createTab.addEventListener('click', () => {
-      createTab.classList.add('active');
-      myReportsTab.classList.remove('active');
-      form.style.display = 'flex';
-      myReports.style.display = 'none';
-    });
+  myReportsTab.addEventListener('click', () => {
+    myReportsTab.classList.add('active');
+    createTab.classList.remove('active');
+    form.style.display = 'none';
+    myReports.style.display = 'block';
+  });
 
-    myReportsTab.addEventListener('click', () => {
-      myReportsTab.classList.add('active');
-      createTab.classList.remove('active');
-      form.style.display = 'none';
-      myReports.style.display = 'block';
-    });
+  // Placeholders for actions
+  document.getElementById('photoBtn').addEventListener('click', () => {
+    alert('Photo upload feature coming soon!');
+  });
+  document.getElementById('sendBtn').addEventListener('click', () => {
+    alert('Report sent! (Functionality not implemented)');
+  });
+</script>
 
-    // Photo button - just a placeholder, can be connected to file input later
-    document.getElementById('photoBtn').addEventListener('click', () => {
-      alert('Photo upload feature coming soon!');
-    });
-
-    // Send button - just placeholder
-    document.getElementById('sendBtn').addEventListener('click', () => {
-      alert('Report sent! (Functionality not implemented)');
-    });
-  </script>
-
+<?php require_once __DIR__ . '/footer.php'; ?>
 </body>
 </html>
