@@ -94,8 +94,6 @@ audio {
   } 
 }
 CSS;
-
-// Include the header
 include __DIR__ . '/header.php';
 ?>
 

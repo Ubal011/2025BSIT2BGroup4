@@ -1,8 +1,9 @@
 <?php
-// report.php - Issue Reporting Page
+$pageTitle = 'Report Issue';
 $activePage = 'report';
-$pageTitle  = 'Ballot BUZZ - Report Issue';
+include 'header.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +13,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
   <title><?= htmlspecialchars($pageTitle) ?></title>
 
   <style>
-    /* Reset & basic */
     * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
@@ -29,7 +29,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
       gap: 2rem;
     }
 
-    /* Left side container */
     .left-panel {
       flex: 1;
       background: #cfd8e6;
@@ -45,7 +44,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
       color: #012055;
     }
 
-    /* Tabs for Create Report and My Reports */
     .tabs {
       display: flex;
       gap: 1rem;
@@ -68,7 +66,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
       color: white;
     }
 
-    /* Form */
     form {
       display: flex;
       flex-direction: column;
@@ -87,14 +84,12 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
       width: 100%;
     }
 
-    /* Time and AM/PM select container */
     .time-container {
       display: flex;
       gap: 0.5rem;
       align-items: center;
     }
 
-    /* Right side container */
     .right-panel {
       flex: 1.2;
       background: #cfd8e6;
@@ -119,7 +114,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
       font-family: Arial, sans-serif;
     }
 
-    /* Buttons below textarea */
     .buttons-row {
       margin-top: 1rem;
       display: flex;
@@ -140,7 +134,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
     }
     button:hover { background-color: #0141b8; }
 
-    /* My Reports list */
     .reports-list {
       background: white;
       padding: 1rem;
@@ -173,7 +166,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
       .left-panel, .right-panel { min-width: auto; }
     }
 
-    /* Ensure header/nav look as expected */
     header {
       background-color: #012055;
       color: white;
@@ -200,7 +192,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
 <?php require_once __DIR__ . '/header.php'; ?>
 
 <main>
-  <!-- Left Panel -->
   <div class="left-panel">
     <h2>Report Issue</h2>
 
@@ -245,7 +236,6 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
     </div>
   </div>
 
-  <!-- Right Panel -->
   <div class="right-panel">
     <h2>Description</h2>
     <textarea id="description" placeholder="Describe the problem in detail..."></textarea>
@@ -257,11 +247,32 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
 </main>
 
 <script>
-  // Tab switching logic
   const createTab   = document.getElementById('createTab');
   const myReportsTab = document.getElementById('myReportsTab');
   const form        = document.getElementById('reportForm');
   const myReports   = document.getElementById('myReports');
+  const description = document.getElementById('description');
+  const sendBtn     = document.getElementById('sendBtn');
+
+  function loadReports() {
+    myReports.innerHTML = '';
+    const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+    if (reports.length === 0) {
+      myReports.innerHTML = '<p>No reports yet.</p>';
+      return;
+    }
+    reports.forEach(r => {
+      const div = document.createElement('div');
+      div.className = 'report-item';
+      div.innerHTML = `
+        <strong>${r.issueType || 'Unnamed Issue'}</strong>
+        <span class="report-status status-pending">Pending</span>
+        <p>Reported at ${r.location || 'Unknown location'} - ${r.time} ${r.ampm}</p>
+        <p>${r.description}</p>
+      `;
+      myReports.appendChild(div);
+    });
+  }
 
   createTab.addEventListener('click', () => {
     createTab.classList.add('active');
@@ -275,16 +286,36 @@ $pageTitle  = 'Ballot BUZZ - Report Issue';
     createTab.classList.remove('active');
     form.style.display = 'none';
     myReports.style.display = 'block';
+    loadReports();
   });
 
-  // Placeholders for actions
+  sendBtn.addEventListener('click', () => {
+    const location = document.getElementById('location').value.trim();
+    const time = document.getElementById('time').value;
+    const ampm = document.getElementById('ampm').value;
+    const issueType = document.getElementById('issueType').value.trim();
+    const desc = description.value.trim();
+
+    if (!location || !time || !issueType || !desc) {
+      alert('Please fill out all fields.');
+      return;
+    }
+
+    const report = { location, time, ampm, issueType, description: desc };
+    const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+    reports.push(report);
+    localStorage.setItem('reports', JSON.stringify(reports));
+
+    alert('Report submitted successfully!');
+    form.reset();
+    description.value = '';
+  });
+
   document.getElementById('photoBtn').addEventListener('click', () => {
     alert('Photo upload feature coming soon!');
   });
-  document.getElementById('sendBtn').addEventListener('click', () => {
-    alert('Report sent! (Functionality not implemented)');
-  });
 </script>
+
 
 <?php require_once __DIR__ . '/footer.php'; ?>
 </body>

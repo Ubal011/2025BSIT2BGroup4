@@ -3,22 +3,25 @@ $pageTitle = 'Ballot BUZZ - Sign Up';
 $activePage = 'signup';
 
 $pageStyles = <<<CSS
-/* Layout */
+/* your CSS unchanged */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-image: url('images/bg.png.png');
-  background-size: cover;
+  background-color: #001a3d;
+  background-image: url('images/Bbuzzbg.png');
   background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-/* Keep footer at bottom */
-.bb-footer { margin-top: auto; }
 
-/* Header/Nav */
+.bb-footer {
+  margin-top: auto;
+}
+
 header {
   background-color: #012055;
   color: white;
@@ -40,41 +43,92 @@ nav a.active {
   border-radius: 5px;
 }
 
-/* Auth box aligned to right */
-.container {
-  background-color: rgba(26, 26, 46, 0.95);
+body > .container-wrapper {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-grow: 1;
   padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  width: 100%;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: 20vw;
-  margin-top: 3rem;
+  position: relative;
 }
-h1 { text-align: center; margin-bottom: 1rem; }
+
+.container-wrapper::before,
+.container-wrapper::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.05);
+  transform: rotate(8deg);
+  z-index: 0;
+}
+.container-wrapper::after {
+  transform: rotate(-8deg);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 2.5rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  width: clamp(800px, 75vw, 1000px);
+  max-width: 95vw;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
 input, select {
   width: 100%;
-  padding: 0.5rem;
-  margin: 0.4rem 0 1rem 0;
-  border-radius: 0.5rem;
+  height: 48px;
+  padding: 0 1rem;
+  margin: 0.5rem 0;
+  border-radius: 50px;
   border: none;
+  outline: none;
+  font-size: 1rem;
 }
+
 button {
   width: 100%;
-  background-color: #003b99;
+  height: 48px;
+  background-color: #0045cc;
   color: white;
-  padding: 0.7rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-.error {
-  color: #f44336;
-  margin-bottom: 1rem;
   font-weight: bold;
-  text-align: center;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+@media (max-width: 430px) {
+  body {
+    background-image: url('images/phonebbuzz.png');
+  }
+
+  .container-wrapper {
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .container-wrapper::before,
+  .container-wrapper::after {
+    display: none; 
+  }
+
+  .container {
+    width: 100%;
+    max-width: 360px;
+    padding: 1.5rem;
+    margin: 2rem auto; 
+  }
+
+  input, select, button {
+    width: 100%; 
+    font-size: 0.95rem;
+  }
 }
 CSS;
 ?>
@@ -89,63 +143,28 @@ CSS;
 <body>
 <?php include __DIR__ . '/header.php'; ?>
 
-<div class="container">
-  <h1>Sign Up</h1>
-  <div id="error-msg" class="error"></div>
-  <form id="signup-form">
-    <input type="text" id="fullname" placeholder="Full Name" required />
-    <input type="number" id="age" placeholder="Age" min="1" required />
-    <input type="date" id="birthday" placeholder="Birthday" required />
-    <input type="text" id="address" placeholder="Address" required />
-    <select id="valid-id" required>
-      <option value="">Select Valid ID</option>
-      <option>National ID</option>
-      <option>Driver's License</option>
-      <option>Senior Citizen</option>
-      <option>Passport</option>
-      <option>SSS ID</option>
-    </select>
-    <input type="text" id="username" placeholder="Username" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <button type="submit">Sign Up</button>
-  </form>
+<div class="container-wrapper">
+  <div class="container">
+    <h1>Sign Up</h1>
+    <form method="post" action="signup_process.php">
+      <input type="text" name="fullname" placeholder="Full Name" required />
+      <input type="number" name="age" placeholder="Age" min="1" required />
+      <input type="date" name="birthday" placeholder="Birthday" required />
+      <input type="text" name="address" placeholder="Address" required />
+      <select name="validId" required>
+        <option value="">Select Valid ID</option>
+        <option>National ID</option>
+        <option>Driver's License</option>
+        <option>Senior Citizen</option>
+        <option>Passport</option>
+        <option>SSS ID</option>
+      </select>
+      <input type="text" name="username" placeholder="Username" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
 </div>
-
-<script>
-const form = document.getElementById('signup-form');
-const errorMsg = document.getElementById('error-msg');
-
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  errorMsg.textContent = '';
-
-  const fullname = document.getElementById('fullname').value.trim();
-  const age = parseInt(document.getElementById('age').value);
-  const birthday = document.getElementById('birthday').value;
-  const address = document.getElementById('address').value.trim();
-  const validId = document.getElementById('valid-id').value;
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value;
-
-  if (!fullname || !age || !birthday || !address || !validId || !username || !password) {
-    errorMsg.textContent = 'Please fill in all fields.';
-    return;
-  }
-  if (age < 1) {
-    errorMsg.textContent = 'Age must be at least 1.';
-    return;
-  }
-  if (localStorage.getItem('user_' + username)) {
-    errorMsg.textContent = 'Username already taken.';
-    return;
-  }
-
-  const user = { fullname, age, birthday, address, validId, username, password };
-  localStorage.setItem('user_' + username, JSON.stringify(user));
-  alert('Registration successful! You can now log in.');
-  window.location.href = 'login.php';
-});
-</script>
 
 <?php include __DIR__ . '/footer.php'; ?>
 </body>

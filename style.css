@@ -1,20 +1,35 @@
-/* Global Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; 
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f5f5f5;
-  margin: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
 header {
-  background-color: #012055;
-  color: white;
-  padding: 1rem 2rem;
+  position: relative; 
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  min-height: 80px;
+  padding: 0 2rem;
+  background-color: #012055;
+  z-index: 1000;
 }
 
 .logo-container {
@@ -23,17 +38,17 @@ header {
 }
 
 .logo {
-  height: 60px; /* Adjust as needed */
+  height: 60px;
 }
 
 nav {
   display: flex;
+  gap: 1rem;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  margin-left: 1rem;
   font-weight: bold;
   padding: 0.5rem 1rem;
   transition: background-color 0.3s;
@@ -45,13 +60,24 @@ nav a.active {
   border-radius: 5px;
 }
 
+#hamburger {
+  display: none;
+  top: 1rem;
+  right: 8rem;
+  font-size: 1.5rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 main {
   flex: 1;
   padding: 1rem;
 }
 
 h1 {
-  color: #012055;
+  color: #fff;
   margin-bottom: 2rem;
 }
 
@@ -68,7 +94,6 @@ h1 {
   border-radius: 25px;
   outline: none;
   transition: border-color 0.3s;
-  box-sizing: border-box;
 }
 
 #search-input:focus {
@@ -88,14 +113,13 @@ h1 {
   padding: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   width: 300px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  box-sizing: border-box;
-  min-height: 380px;
-  transition: transform 0.2s ease;
   cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .candidate-card:hover {
@@ -111,7 +135,6 @@ h1 {
   object-fit: cover;
   margin-bottom: 1rem;
   background-color: white;
-  flex-shrink: 0;
 }
 
 .candidate-name {
@@ -132,4 +155,71 @@ h1 {
   font-size: 1rem;
   color: #0a2e5c;
   flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  #hamburger {
+    display: block;
+    margin-left: 150px;
+  }
+
+  nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    display: none;
+    background-color: #012055;
+    padding: 1rem 0;
+    border-radius: 0 0 8px 8px;
+  }
+
+  nav.active {
+    display: flex;
+  }
+
+  nav a {
+    padding: 0.8rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  main {
+    padding: 0.8rem;
+  }
+
+  .candidates-row {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .candidate-card {
+    width: 100%;
+    max-width: 300px;
+    min-width: 250px;
+    margin-bottom: 1rem;
+  }
+
+  .candidate-photo {
+    width: 100px;
+    height: 100px;
+  }
+
+  #search-input {
+    width: 100%;
+    max-width: 100%;
+  }
 }
